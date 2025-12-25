@@ -1,0 +1,19 @@
+# --- Python Specific ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# --- Environment Variables (CRITICAL) ---
+.env
+
+# --- Databases ---
+*.sqlite
+*.db
+
+# --- IDEs ---
+.vscode/
+.idea/
+.DS_Store
