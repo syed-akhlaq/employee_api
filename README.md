@@ -1,48 +1,113 @@
-# 🚀 Employee Management API (FastAPI + Keycloak + PostgreSQL)\
+# 🚀 Employee Management API (FastAPI + Keycloak + PostgreSQL)
 A professional-grade, secure FastAPI application for managing employee records. This project demonstrates Identity Federation by syncing users between Keycloak (Identity Provider) and Postgres (Business Database).
 
-## 🛠️ Features\
+## 🛠️ Features
 -Secure Authentication: JWT Bearer Token verification using Keycloak Public Keys (RSA256).\
 -Identity Syncing: Automatically creates users in Keycloak and maps their UID to PostgreSQL.\
 -Auto-Login: Generates an access token immediately upon employee registration.\
 -Robust Validation: Uses Pydantic for request filtering and Peewee ORM for database constraints.\
--Automated Docs: Full Swagger UI integration with Authorize button support.\
+-Automated Docs: Full Swagger UI integration with Authorize button support.
 
-## 🏗️ Tech Stack\
+## 🏗️ Tech Stack
 -Backend: FastAPI (Python 3.10+)\
 -Database: PostgreSQL\
 -ORM: Peewee\
 -Identity Provider: Keycloak (OpenID Connect)\
--Server: Uvicorn\
+-Server: Uvicorn
 
-## This is a great foundation! To make this "GitHub Ready," we need to add a bit of visual structure, clear code blocks for the .env setup, and a professional layout.
+## 🚦 Getting Started
+### 1. Prerequisites
+Ensure you have the following installed:\
+-Python 3.10+\
+-PostgreSQL (Running locally or via Docker)\
+-Keycloak (Running on port 8080)
 
-Since we just moved your secrets to the .env file, I have added a section specifically for that so anyone who downloads your code knows exactly what "keys" they need to provide.
+### 2. Installation
+Clone the repository and install the dependencies:
 
-🚀 Employee Management API (FastAPI + Keycloak + PostgreSQL)
-A professional-grade, secure FastAPI application for managing employee records. This project demonstrates Identity Federation by syncing users between Keycloak (Identity Provider) and Postgres (Business Database).
+-Create a virtual environment
+```
+Bash
 
-🛠️ Features
-Secure Authentication: JWT Bearer Token verification using Keycloak Public Keys (RSA256).
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-Identity Syncing: Automatically creates users in Keycloak and maps their UID to PostgreSQL.
+-Install requirements
+```
+Bash
 
-Auto-Login: Generates an access token immediately upon employee registration.
+pip install fastapi uvicorn peewee psycopg2-binary python-jose[cryptography] python-dotenv python-keycloak`
+```
+### 3. Environment Configuration
+Create a .env file in the root directory and paste the following, replacing the values with your actual setup:
+```
+Code snippet
 
-Robust Validation: Uses Pydantic for request filtering and Peewee ORM for database constraints.
+# Database
+DB_NAME=employee_mgmt
+DB_USER=your_user
+DB_PASS=your_password
+DB_HOST=localhost
+DB_PORT=5432
 
-Automated Docs: Full Swagger UI integration with Authorize button support.
+# Keycloak Admin (to create users)
+KC_ADMIN_USER=admin_username
+KC_ADMIN_PASS=admin_password
 
-🏗️ Tech Stack
-Backend: FastAPI (Python 3.10+)
+# Keycloak Client Config
+KC_SERVER_URL=http://localhost:8080/
+KC_REALM=employees
+KC_CLIENT_ID=fastapi-client
+KC_CLIENT_SECRET=your_client_secret
 
-Database: PostgreSQL
+# Keycloak Verification (Public Key from Realm Settings)
+KC_PUBLIC_KEY="MIIBIjANBgkqh..."
 
-ORM: Peewee
+```
 
-Identity Provider: Keycloak (OpenID Connect)
+## 🏃 Running the App
+### 1.Start the Server:
+```
+Bash
 
-Server: Uvicorn
+uvicorn main:app --reload
+```
+### 2.Access Documentation: Open http://127.0.0.1:8000/docs in your browser.
 
-🚦 Getting Started
+## 🔐 How to Authenticate
+### Step 1 
+Use the POST /employees endpoint. This will:\
+1.Create the user in Keycloak.\
+2.Save the employee data in Postgres.\
+3.Return an access_token in the response.
+
+### Step 2: Authorize in Swagger
+1.Copy the access_token from the Step 1 response.\
+2.Click the Authorize (padlock) button at the top of the Swagger page.\
+3.Paste the token and click Authorize.\
+4.You can now access protected GET, PUT, and DELETE routes.
+
+## 📁 Project Structure
+-``main.py:`` API routes and application lifecycle.\
+-``database.py:`` PostgreSQL connection and Peewee models.\
+-``schemas.py:`` Pydantic models for data validation.\
+-``security.py:`` JWT decoding and RSA signature verification.\
+-``keycloak_utils.py:`` Admin utilities for user management.\
+-``.env:`` Secret configuration (do not commit to git!).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
